@@ -1,75 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import './Register.scss'
+import { useNavigate } from 'react-router-dom'
 
-function Register() {
-  const [formData, setFormData] = useState({
-    hovaten: '',
-    email: '',
-    phone: '',
-    password: ''
-  });
+function Register () {
+  const [hovaten, sethovaten] = useState('')
+  const [email, setemail] = useState('')
 
-  // Xử lý thay đổi input
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+  const [phone, setphone] = useState('')
 
-  // Xử lý submit form
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Ở đây bạn có thể xử lý gửi dữ liệu đến server
-    console.log('Dữ liệu đăng ký:', formData);
-    // Ví dụ: gọi API để gửi dữ liệu form đi
-  };
+  const [password, setpassword] = useState('')
+
+  const [passwordError, setpasswordError] = useState('')
+  const [emailError, setemailError] = useState('')
+  const [phoneError, setphoneError] = useState('')
+  const [hovatenError, sethovatenError] = useState('')
+
+  const navigate = useNavigate()
+  const validateInputs = () => {
+    let valid = true
+
+    if (!hovaten) {
+      sethovatenError('Vui lòng nhập họ và tên.')
+      valid = false
+    } else {
+      sethovatenError('')
+    }
+
+    if (!email) {
+      setemailError('Vui lòng nhập email')
+      valid = false
+    } else {
+      setemailError('')
+    }
+
+    if (!phone) {
+      setphoneError('Vui lòng nhập số điện thoại')
+      valid = false
+    } else {
+      setphoneError('')
+    }
+
+    if (!password) {
+      setpasswordError('vui lòng nhập mật khẩu')
+      valid = false
+    } else {
+      setpasswordError('')
+    }
+
+    return valid
+  }
+
+  const handleRegister = async () => {
+    if (validateInputs()) {
+      try {
+        const response = await fetch(`http://localhost:8080/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            hovaten: hovaten,
+            email: email,
+            phone: phone,
+            password: password
+          })
+        })
+        if (response.ok) {
+          const confirmed = window.confirm(
+            'Đăng ký người dùng thành công. Nhấn OK để về trang đăng nhập.'
+          )
+          if (confirmed) {
+            navigate('/')
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   return (
-    <div className="register-container">
-      <h2 className="register-title">Đăng ký người dùng</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Họ và tên"
-          name="hovaten"
-          value={formData.hovaten}
-          onChange={handleInputChange}
-          required
-        />
-        <br />
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-        />
-        <br />
-        <input
-          type="text"
-          placeholder="Số điện thoại"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          required
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Mật khẩu"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-        <br />
-        <input type="submit" value="Đăng ký" />
-      </form>
+    <div className='register-container'>
+      <h2 className='register-title'>Đăng ký người dùng</h2>
+      <input
+        type='text'
+        placeholder='Họ và tên'
+        name='hovaten'
+        value={hovaten}
+        onChange={e => sethovaten(e.target.value)}
+      />
+      <br />
+      <input
+        type='email'
+        placeholder='Email'
+        name='email'
+        value={email}
+        onChange={e => setemail(e.target.value)}
+      />
+      <br />
+      <input
+        type='text'
+        placeholder='Số điện thoại'
+        name='phone'
+        value={phone}
+        onChange={e => setphone(e.target.value)}
+      />
+      <br />
+      <input
+        type='password'
+        placeholder='Mật khẩu'
+        name='password'
+        value={password}
+        onChange={e => setpassword(e.target.value)}
+      />
+      <br />
+      <button onClick={handleRegister}>Đăng ký</button>
     </div>
-  );
+  )
 }
 
-export default Register;
+export default Register

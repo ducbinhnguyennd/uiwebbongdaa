@@ -23,7 +23,7 @@
     border-radius: 4px;
   }
   
-  .register-container input[type="submit"] {
+  .register-container button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -33,7 +33,7 @@
     cursor: pointer;
   }
   
-  .register-container input[type="submit"]:hover {
+  .register-container button:hover {
     background-color: #45a049;
   }
   
