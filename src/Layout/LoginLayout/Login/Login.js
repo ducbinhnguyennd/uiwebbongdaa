@@ -47,17 +47,25 @@ function Login () {
           })
         })
         const data = await response.json()
-        if (data.message) {
-          window.confirm(data.message)
+  
+        if (data) { 
+          if (role === 'admin') {
+            navigate('/admin')
+          } else if (role === 'user') {
+            navigate('/user-dashboard') 
+          } else {
+            navigate('/home') 
+          }
         } else {
-          window.confirm('đăng nhập thành công')
+          window.confirm(data.message || 'Đăng nhập không thành công')
         }
       } catch (error) {
         console.log(error)
+        window.confirm('Đăng nhập lỗi')
       }
     }
   }
-
+  
   return (
     <div className='register-container'>
       <h2 className='register-title'>Đăng nhập</h2>
