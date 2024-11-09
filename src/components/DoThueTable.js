@@ -42,34 +42,37 @@ const DoThueTable = () => {
   };
 
   // Thêm đồ thuê mới hoặc sửa đồ thuê
-  const handleSubmit = async () => {
-    try {
-      console.log('Dữ liệu gửi lên:', currentRental); // Thêm thông tin để debug
-      const rentalData = {
-        tendothue: currentRental.tendothue,
-        soluong: currentRental.soluong,
-        price: currentRental.price,
-        image: currentRental.image,
-      };
+const handleSubmit = async () => {
+  try {
+    const formData = new FormData()
+    formData.append('tendothue', currentRental.tendothue)
+    formData.append('soluong', currentRental.soluong)
+    formData.append('price', currentRental.price)
 
-      if (currentRental._id) {
-        // Sửa đồ thuê nếu đã có ID
-        console.log('Đang sửa đồ thuê...');
-        await axios.post('http://localhost:8080/putdothue', { _id: currentRental._id, ...rentalData });
-      } else {
-        // Thêm đồ thuê mới
-        console.log('Đang thêm đồ thuê mới...');
-        await axios.post('http://localhost:8080/postdothue', rentalData);
-      }
-
-      fetchRentals(); // Cập nhật lại danh sách đồ thuê
-      closeModal(); // Đóng modal
-      alert('Cập nhật thành công!'); // Thêm thông báo thành công
-    } catch (error) {
-      console.error('Lỗi khi thêm/sửa đồ thuê:', error);
-      alert('Đã xảy ra lỗi, vui lòng thử lại!');
+    if (currentRental.imageFile) {
+      formData.append('image', currentRental.imageFile)
     }
-  };
+
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }
+
+    if (currentRental._id) {
+      await axios.post(`http://localhost:8080/putdothue/${currentRental._id}`, formData, config)
+      console.error(currentRental._id)
+    } else {
+      await axios.post('http://localhost:8080/postdothue', formData, config)
+    }
+
+    fetchRentals()
+    closeModal()
+    alert('Cập nhật thành công!')
+  } catch (error) {
+    console.error('Lỗi khi thêm/sửa đồ thuê:', error)
+    alert('Đã xảy ra lỗi, vui lòng thử lại!')
+  }
+}
+
 
   // Xóa đồ thuê
   const handleDelete = async (id) => {
