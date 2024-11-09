@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import { publicRoutes } from './router'
-import { Logintong } from './Layout/LoginLayout'
 function App() {
 
   return (
