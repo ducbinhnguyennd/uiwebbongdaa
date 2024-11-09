@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import './Login.scss'
 
 function Login () {
   const [email, setemail] = useState('')
@@ -42,15 +43,14 @@ function Login () {
           body: JSON.stringify({
             email: email,
             password: password,
-            role:role
+            role: role
           })
         })
         const data = await response.json()
         if (data.message) {
           window.confirm(data.message)
-        }
-        else{
-            window.confirm('đăng nhập thành công')
+        } else {
+          window.confirm('đăng nhập thành công')
         }
       } catch (error) {
         console.log(error)
@@ -79,6 +79,13 @@ function Login () {
       />
       <br />
       <button onClick={handleLogin}>Đăng nhập</button>
+      {role === 'user' && (
+        <div className='divfooterdk'>
+          <p>
+            Bạn chưa có tài khoản? <a href='/register'>Đăng ký</a>
+          </p>
+        </div>
+      )}
     </div>
   )
 }
