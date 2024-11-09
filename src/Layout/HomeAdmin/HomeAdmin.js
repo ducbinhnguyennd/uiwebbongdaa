@@ -6,6 +6,7 @@ import UserForm from '../../components/UserForm';
 import UserTable from '../../components/UserTable';
 import SanbongTable from '../../components/SanbongTable';
 import DoThueTable from '../../components/DoThueTable';
+import DoUongTable from '../../components/DoUongTable';
 
 
 import './HomeAdmin.scss';
@@ -30,7 +31,7 @@ function HomeAdmin() {
       case 'equipmentManagement':
         return <DoThueTable />;
       case 'beverageManagement':
-        return <div>Beverage Management Content</div>;
+        return <DoUongTable/>;
       default:
         return <UserTable />;
     }

@@ -4,25 +4,25 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('#root')
 
-const DoThueTable = () => {
-  const [rentals, setRentals] = useState([]) // Lưu trữ danh sách đồ thuê
+const DoUongTable = () => {
+  const [rentals, setRentals] = useState([]) // Lưu trữ danh sách đồ uống
   const [modalIsOpen, setModalIsOpen] = useState(false) // Trạng thái modal
-  const [currentRental, setCurrentRental] = useState(null) // Lưu thông tin đồ thuê hiện tại (dùng khi sửa)
+  const [currentRental, setCurrentRental] = useState(null) // Lưu thông tin đồ uống hiện tại (dùng khi sửa)
 
-  // Lấy danh sách đồ thuê từ server
+  // Lấy danh sách đồ uống từ server
   const fetchRentals = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/getdothue')
-      console.log('Danh sách đồ thuê:', response.data) // Kiểm tra dữ liệu nhận được từ API
+      const response = await axios.get('http://localhost:8080/getdouong')
+      console.log('Danh sách đồ uống:', response.data) // Kiểm tra dữ liệu nhận được từ API
       setRentals(response.data) // Cập nhật lại state với dữ liệu từ API
     } catch (error) {
-      console.error('Lỗi khi lấy danh sách đồ thuê:', error)
+      console.error('Lỗi khi lấy danh sách đồ uống:', error)
     }
   }
 
-  // Mở modal để thêm đồ thuê
+  // Mở modal để thêm đồ uống
   const openModal = (rental = null) => {
-    setCurrentRental(rental) // Cập nhật đồ thuê hiện tại (để sửa hoặc thêm mới)
+    setCurrentRental(rental) // Cập nhật đồ uống hiện tại (để sửa hoặc thêm mới)
     setModalIsOpen(true)
   }
 
@@ -41,11 +41,11 @@ const DoThueTable = () => {
     })
   }
 
-  // Thêm đồ thuê mới hoặc sửa đồ thuê
+  // Thêm đồ uống mới hoặc sửa đồ uống
   const handleSubmit = async () => {
     try {
       const formData = new FormData()
-      formData.append('tendothue', currentRental.tendothue)
+      formData.append('tendouong', currentRental.tendouong)
       formData.append('soluong', currentRental.soluong)
       formData.append('price', currentRental.price)
 
@@ -59,57 +59,57 @@ const DoThueTable = () => {
 
       if (currentRental._id) {
         await axios.post(
-          `http://localhost:8080/putdothue/${currentRental._id}`,
+          `http://localhost:8080/putdouong/${currentRental._id}`,
           formData,
           config
         )
         console.error(currentRental._id)
       } else {
-        await axios.post('http://localhost:8080/postdothue', formData, config)
+        await axios.post('http://localhost:8080/postdouong', formData, config)
       }
 
       fetchRentals()
       closeModal()
       alert('Cập nhật thành công!')
     } catch (error) {
-      console.error('Lỗi khi thêm/sửa đồ thuê:', error)
+      console.error('Lỗi khi thêm/sửa đồ uống:', error)
       alert('Đã xảy ra lỗi, vui lòng thử lại!')
     }
   }
 
-  // Xóa đồ thuê
+  // Xóa đồ uống
   const handleDelete = async id => {
     try {
-      console.log('Đang xóa đồ thuê với ID:', id) // Debug ID đang xóa
-      await axios.post(`http://localhost:8080/deletedothue/${id}`)
-      fetchRentals() // Cập nhật lại danh sách đồ thuê
-      alert('Đã xóa đồ thuê thành công!')
+      console.log('Đang xóa đồ uống với ID:', id) // Debug ID đang xóa
+      await axios.post('http://localhost:8080/deletedouong', { _id: id })
+      fetchRentals() // Cập nhật lại danh sách đồ uống
+      alert('Đã xóa đồ uống thành công!')
     } catch (error) {
-      console.error('Lỗi khi xóa đồ thuê:', error)
+      console.error('Lỗi khi xóa đồ uống:', error)
       alert('Đã xảy ra lỗi khi xóa!')
     }
   }
 
-  // Hiển thị chi tiết đồ thuê
+  // Hiển thị chi tiết đồ uống
   const handleViewDetails = rental => {
     alert(
-      `Chi tiết đồ thuê: \nTên: ${rental.tendothue}\nSố lượng: ${rental.soluong}\nGiá: ${rental.price}\nẢnh: ${rental.image}`
+      `Chi tiết đồ uống: \nTên: ${rental.tendouong}\nSố lượng: ${rental.soluong}\nGiá: ${rental.price}\nẢnh: ${rental.image}`
     )
   }
 
   useEffect(() => {
-    fetchRentals() // Lấy danh sách đồ thuê khi component được mount
+    fetchRentals() // Lấy danh sách đồ uống khi component được mount
   }, [])
 
   return (
     <div>
-      <button onClick={() => openModal()}>Thêm đồ thuê</button>
-      <h2>Danh sách đồ thuê</h2>
+      <button onClick={() => openModal()}>Thêm đồ uống</button>
+      <h2>Danh sách đồ uống</h2>
       <table>
         <thead>
           <tr>
-            <th>Tên đồ thuê</th>
-            <td>Ảnh</td>
+            <th>Tên đồ uống</th>
+            <th>Ảnh</th>
             <th>Số lượng</th>
             <th>Giá</th>
             <th>Hành động</th>
@@ -119,7 +119,7 @@ const DoThueTable = () => {
           {rentals && rentals.length > 0 ? (
             rentals.map(rental => (
               <tr key={rental._id}>
-                <td>{rental.tendothue}</td>
+                <td>{rental.tendouong}</td>
                 <td>
                   <img src={rental.image} alt='' style={{ width: '50px' }} />
                 </td>
@@ -137,24 +137,22 @@ const DoThueTable = () => {
             ))
           ) : (
             <tr>
-              <td colSpan='4'>Chưa có đồ thuê</td>
+              <td colSpan='4'>Chưa có đồ uống</td>
             </tr>
           )}
         </tbody>
       </table>
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <h2>
-          {currentRental && currentRental._id
-            ? 'Sửa đồ thuê'
-            : 'Thêm đồ thuê mới'}
-        </h2>
+<h2>
+  {currentRental && currentRental._id ? 'Sửa đồ uống' : 'Thêm đồ uống mới'}
+</h2>
         <form>
           <div>
-            <label>Tên đồ thuê</label>
+            <label>Tên đồ uống</label>
             <input
               type='text'
               name='tendothue'
-              value={currentRental ? currentRental.tendothue : ''}
+              value={currentRental ? currentRental.tendouong : ''}
               onChange={handleInputChange}
             />
           </div>
@@ -191,7 +189,8 @@ const DoThueTable = () => {
           </div>
         </form>
         <button onClick={handleSubmit}>
-          {currentRental && currentRental._id ? 'Cập nhật' : 'Thêm'}
+          {currentRental && currentRental._id
+ ? 'Cập nhật' : 'Thêm'}
         </button>
         <button onClick={closeModal}>Đóng</button>
       </Modal>
@@ -199,4 +198,4 @@ const DoThueTable = () => {
   )
 }
 
-export default DoThueTable
+export default DoUongTable
