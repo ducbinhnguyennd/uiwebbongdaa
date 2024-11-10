@@ -3,12 +3,14 @@ import { Logintong } from '../Layout/LoginLayout'
 import { HomeAdmin } from '../Layout/HomeAdmin'
 
 import { Login } from '../Layout/LoginLayout/Login'
+import Calendar from '../Layout/CalendarLayout/Calendar'
 
 const publicRoutes = [
   { path: '/', component: Logintong, layout: null },
   { path: '/admin', component: HomeAdmin, layout: null },
   { path: '/register', component: Register, layout: null },
-  { path: '/login', component: Login, layout: null }
+  { path: '/login', component: Login, layout: null },
+  { path: '/calendar', component: Calendar, layout: null }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

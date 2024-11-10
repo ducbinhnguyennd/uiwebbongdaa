@@ -52,7 +52,7 @@ function Login () {
           if (role === 'admin') {
             navigate('/admin')
           } else if (role === 'user') {
-            navigate('/user-dashboard') 
+            navigate('/calendar',{ state: { userId: data._id } }) 
           } else {
             navigate('/home') 
           }

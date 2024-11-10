@@ -1,0 +1,35 @@
+.calendar {
+    width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.weekdays, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.weekday, .day {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.day.empty {
+    background-color: #f0f0f0;
+    border: none;
+}
+
+.day:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
