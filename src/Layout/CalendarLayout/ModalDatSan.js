@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import './ModalDatSan.scss'
 import ModalNganHang from './ModalNganHang'
 
-function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
- }) {
+function ModalDatSan ({ isOpen, onClose, userId, datadatlich, fetchdatlich }) {
   const [isModalNganHangOpen, setisModalNganHangOpen] = useState(false)
   const [tennguoidat, settennguoidat] = useState('')
   const [phone, setphone] = useState('')
@@ -56,6 +55,11 @@ function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
     (total, item) => total + (item.tiencoc || 0),
     0
   )
+  const handleClose = () => {
+    settennguoidat('')
+    setphone('')
+    onClose()
+  }
 
   if (!isOpen) return null
 
@@ -156,8 +160,7 @@ function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
                   if (validateInputs()) {
                     setisModalNganHangOpen(true)
                   }
-                }
-                else {
+                } else {
                   alert('Bạn chưa có lịch đặt sân nào!')
                 }
               }}
@@ -166,7 +169,7 @@ function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
             </button>
             <button
               style={{ backgroundColor: 'red', color: 'white' }}
-              onClick={onClose}
+              onClick={handleClose}
             >
               Hủy
             </button>
@@ -180,6 +183,8 @@ function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
         phone={phone}
         datadatlich={datadatlich}
         tiencoc={tongTienCoc}
+        fetchdatlich={fetchdatlich}
+        closeModaldDatSan={handleClose}
       />
     </>
   )

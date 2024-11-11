@@ -8,7 +8,9 @@ function ModalNganHang ({
   tennguoidat,
   phone,
   datadatlich,
-  tiencoc
+  tiencoc,
+  fetchdatlich,
+  closeModaldDatSan
 }) {
   const [banks, setBanks] = useState([])
   const [tennganhang, settennganhang] = useState([])
@@ -35,7 +37,10 @@ function ModalNganHang ({
     setIsModalThanhToanOpen(true)
     settennganhang(name)
   }
-  console.log(tennganhang)
+  const handleclose = () => {
+    closeModaldDatSan()
+    onClose()
+  }
   if (!isOpen) return null
   return (
     <>
@@ -78,6 +83,8 @@ function ModalNganHang ({
         datadatlich={datadatlich}
         tiencoc={tiencoc}
         tennganhang={tennganhang}
+        fetchdatlich={fetchdatlich}
+        closeFullModal ={handleclose}
       />
     </>
   )
