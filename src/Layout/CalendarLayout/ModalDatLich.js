@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react'
 import './ModalDatLich.scss'
 
-function ModalDatLich ({ isOpen, onClose, date, userId }) {
+function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays }) {
   const [dataca, setdataca] = useState([])
   const [dataloaisan, setdataloaisan] = useState([])
   const [tenLoaiSan, setTenLoaiSan] = useState('')
   const [selectedShiftId, setSelectedShiftId] = useState(null)
-  const [soluongsan, setsoluongsan] = useState(1)
+  const [soluongSans, setSoluongSans] = useState({})
 
   const fetchData = async () => {
     try {
@@ -61,7 +61,7 @@ function ModalDatLich ({ isOpen, onClose, date, userId }) {
   const handleClose = () => {
     setTenLoaiSan('')
     setSelectedShiftId(null)
-    setsoluongsan(1)
+    setSoluongSans({})
     onClose()
   }
   const handledatlichsan = async () => {
@@ -77,13 +77,14 @@ function ModalDatLich ({ isOpen, onClose, date, userId }) {
             loaisanbong: tenLoaiSan,
             ngayda: date,
             idca: selectedShiftId,
-            soluongsan: soluongsan
+            soluongsan: soluongSans[selectedShiftId] || 1
           })
         }
       )
 
       if (response.ok) {
         handleClose()
+        fetchBookingDays()
         alert('lưu đặt lịch sân thành công')
       } else {
       }
@@ -93,6 +94,12 @@ function ModalDatLich ({ isOpen, onClose, date, userId }) {
   }
   const handleShiftClick = id => {
     setSelectedShiftId(id) // Set the selected shift ID
+  }
+  const handleSoluongChange = (shiftId, value) => {
+    setSoluongSans(prevState => ({
+      ...prevState,
+      [shiftId]: value
+    }))
   }
 
   if (!isOpen) return null
@@ -136,8 +143,8 @@ function ModalDatLich ({ isOpen, onClose, date, userId }) {
                 <input
                   type='number'
                   min='1'
-                  onChange={e => setsoluongsan(e.target.value)}
-                  value={soluongsan}
+                  value={soluongSans[shift._id] || 1} // Nếu không có giá trị, mặc định là 1
+                  onChange={e => handleSoluongChange(shift._id, e.target.value)}
                 />
               </label>
             </div>

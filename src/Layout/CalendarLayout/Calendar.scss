@@ -1,27 +1,33 @@
 .calendar {
-    width: 300px;
+    width: 600px;
     margin: auto;
     text-align: center;
     font-family: Arial, sans-serif;
+    flex: 1;
+    overflow: hidden;
+    height: 700px;
+    /* Điều chỉnh chiều cao tổng thể */
+    box-sizing: border-box;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-
-.weekdays, .days {
+.weekdays,
+.days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 0px;
+    /* Giảm khoảng cách */
 }
 
-.weekday, .day {
-    padding: 10px;
+.day {
     border: 1px solid #ddd;
     background-color: #f9f9f9;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    box-sizing: border-box;
 }
 
 .day.empty {
@@ -32,4 +38,9 @@
 .day:hover {
     background-color: #e0e0e0;
     cursor: pointer;
+}
+
+.day.booked {
+    background-color: #f76c6c;
+    color: white;
 }
