@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import './ModalDatLich.scss'
 
-function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays }) {
+function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays,fetchdatlich
+ }) {
   const [dataca, setdataca] = useState([])
   const [dataloaisan, setdataloaisan] = useState([])
   const [tenLoaiSan, setTenLoaiSan] = useState('')
@@ -85,6 +86,7 @@ function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays }) {
       if (response.ok) {
         handleClose()
         fetchBookingDays()
+        fetchdatlich()
         alert('lưu đặt lịch sân thành công')
       } else {
       }

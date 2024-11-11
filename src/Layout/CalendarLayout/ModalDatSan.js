@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './ModalDatSan.scss'
 import ModalNganHang from './ModalNganHang'
 
-function ModalDatSan ({ isOpen, onClose, userId }) {
-  const [datadatlich, setdatadatlich] = useState([])
+function ModalDatSan ({ isOpen, onClose, userId,datadatlich,fetchdatlich
+ }) {
   const [isModalNganHangOpen, setisModalNganHangOpen] = useState(false)
   const [tennguoidat, settennguoidat] = useState('')
   const [phone, setphone] = useState('')
@@ -29,32 +29,6 @@ function ModalDatSan ({ isOpen, onClose, userId }) {
     }
     return valid
   }
-  const fetchdatlich = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/getbooking/${userId}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (response.ok) {
-        const data = await response.json()
-        setdatadatlich(data)
-      } else {
-        console.error('Failed to fetch data')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-
-  useEffect(() => {
-    fetchdatlich()
-  }, [])
 
   const handelxoabooking = async idbooking => {
     try {
@@ -178,7 +152,7 @@ function ModalDatSan ({ isOpen, onClose, userId }) {
             <button
               style={{ backgroundColor: 'green', color: 'white' }}
               onClick={() => {
-                if (datadatlich > 0) {
+                if (datadatlich.length > 0) {
                   if (validateInputs()) {
                     setisModalNganHangOpen(true)
                   }

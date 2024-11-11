@@ -39,7 +39,6 @@ function ModalNganHang ({
   if (!isOpen) return null
   return (
     <>
-      ;
       <div className='modal-overlay2'>
         <div className='modal-content2'>
           <img src='/logovnpay.png' alt='' className='imgvnpay' />
@@ -78,6 +77,7 @@ function ModalNganHang ({
         phone={phone}
         datadatlich={datadatlich}
         tiencoc={tiencoc}
+        tennganhang={tennganhang}
       />
     </>
   )

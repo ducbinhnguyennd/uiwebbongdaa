@@ -14,7 +14,6 @@ function Calendar () {
   const [bookingDetails, setBookingDetails] = useState([]) // Lưu thông tin các ca đã đặt
   const [datadatlich, setdatadatlich] = useState([])
 
-
   const location = useLocation()
   const userId = location.state?.userId || ''
   console.log(userId)
@@ -37,29 +36,27 @@ function Calendar () {
   }
 
   const fetchdatlich = async () => {
-  try {
-    const response = await fetch(`http://localhost:8080/getbooking/${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const response = await fetch(
+        `http://localhost:8080/getbooking/${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        setdatadatlich(data)
+      } else {
+        console.error('Failed to fetch data')
       }
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      setdatadatlich(data)
-    } else {
-      console.error('Failed to fetch data')
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
-  } catch (error) {
-    console.error('Error fetching data:', error)
   }
-}
-
-useEffect(() => {
-  fetchdatlich()
-}, [])
-
 
   const fetchBookingDetails = async date => {
     try {
@@ -85,6 +82,7 @@ useEffect(() => {
 
   useEffect(() => {
     fetchBookingDays()
+    fetchdatlich()
   }, [userId])
 
   const renderCalendar = () => {
@@ -190,7 +188,7 @@ useEffect(() => {
       if (response.ok) {
         fetchBookingDays()
         fetchBookingDetails(date)
-
+        fetchdatlich()
         alert('xóa lịch thành công')
       } else {
         console.error('Failed to fetch data')
@@ -227,11 +225,14 @@ useEffect(() => {
           date={selectedDate}
           userId={userId}
           fetchBookingDays={fetchBookingDays}
+          fetchdatlich={fetchdatlich}
         />
         <ModalDatSan
           isOpen={isModalDatSanOpen}
           onClose={closeModalDatSan}
           userId={userId}
+          datadatlich={datadatlich}
+          fetchdatlich={fetchdatlich}
         />
       </div>
       <div className='divtablecalendartong'>
