@@ -151,7 +151,7 @@ const DoUongTable = () => {
             <label>Tên đồ uống</label>
             <input
               type='text'
-              name='tendothue'
+              name='tendouong'
               value={currentRental ? currentRental.tendouong : ''}
               onChange={handleInputChange}
             />
