@@ -1,20 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // Modal.js
 import React, { useState, useEffect } from 'react'
 import './ModalDatLich.scss'
 
-function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays,fetchdatlich
- }) {
+function ModalDatLich ({
+  isOpen,
+  onClose,
+  date,
+  userId,
+  fetchBookingDays,
+  fetchdatlich
+}) {
   const [dataca, setdataca] = useState([])
   const [dataloaisan, setdataloaisan] = useState([])
-  const [tenLoaiSan, setTenLoaiSan] = useState('')
+  const [tenLoaiSan, setTenLoaiSan] = useState('sân 7')
   const [selectedShiftId, setSelectedShiftId] = useState(null)
   const [soluongSans, setSoluongSans] = useState({})
-
   const fetchData = async () => {
     try {
+      const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+      console.log(formattedDate)
       const response = await fetch(
-        `http://localhost:8080/getCa
-`,
+        `http://localhost:8080/getCatest/${tenLoaiSan}?ngayda=${formattedDate}`,
         {
           method: 'GET',
           headers: {
@@ -55,12 +64,16 @@ function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays,fetchda
   }
 
   useEffect(() => {
-    fetchData()
+    if (date) {
+      fetchData()
+    }
+  }, [date, tenLoaiSan])
+
+  useEffect(() => {
     fetchloaisan()
   }, [])
 
   const handleClose = () => {
-    setTenLoaiSan('')
     setSelectedShiftId(null)
     setSoluongSans({})
     onClose()
@@ -82,25 +95,39 @@ function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays,fetchda
           })
         }
       )
-
-      if (response.ok) {
+      const data = await response.json()
+      if (data.error) {
+        alert(data.error)
+      } else {
         handleClose()
         fetchBookingDays()
         fetchdatlich()
         alert('lưu đặt lịch sân thành công')
-      } else {
       }
     } catch (error) {
       console.error('Lỗi khi lưu đặt lịch sân:', error)
     }
   }
   const handleShiftClick = id => {
-    setSelectedShiftId(id) // Set the selected shift ID
+    const selectedShift = dataca.find(shift => shift._id === id)
+
+    if (selectedShift.availableSanCount === 0) {
+      alert('Không còn sân trống cho ca này!')
+      return
+    }
+
+    setSelectedShiftId(id)
   }
   const handleSoluongChange = (shiftId, value) => {
+    const availableCount =
+      dataca.find(shift => shift._id === shiftId)?.availableSanCount || 0
+
+    // Chỉ cho phép nhập số lượng sân <= số sân trống
+    const newValue = Math.min(value, availableCount)
+
     setSoluongSans(prevState => ({
       ...prevState,
-      [shiftId]: value
+      [shiftId]: newValue
     }))
   }
 
@@ -140,13 +167,17 @@ function ModalDatLich ({ isOpen, onClose, date, userId, fetchBookingDays,fetchda
                 {shift.tenca}: {shift.begintime} - {shift.endtime}
               </h3>
               <p>Giá ca: {shift.giaca.toLocaleString()} đ</p>
+              <p>Sân trống: {shift.availableSanCount}</p>
               <label>
                 SL Sân:
                 <input
                   type='number'
-                  min='1'
-                  value={soluongSans[shift._id] || 1} // Nếu không có giá trị, mặc định là 1
+                  placeholder='0'
+                  min='0'
+                  value={soluongSans[shift._id]}
                   onChange={e => handleSoluongChange(shift._id, e.target.value)}
+                  disabled={shift.availableSanCount === 0}
+                  max={shift.availableSanCount} 
                 />
               </label>
             </div>
