@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
 import './ModalThanhToan.scss'
+import ModalThanhToanSuccess from './ModalThanhToanSuccess'
 
 function ModalThanhToan ({
   isOpen,
@@ -19,6 +21,14 @@ function ModalThanhToan ({
   const [sotheError, setsotheError] = useState('')
   const [tenchutheError, settenchutheError] = useState('')
   const [ngayphatError, setngayphatError] = useState('')
+  const [isOpenSuccess, setIsOpenSuccess] = useState(false)
+
+  const [initialTienCoc, setInitialTienCoc] = useState(tiencoc)
+
+  // Lưu giá trị tiencoc ban đầu khi component mount
+  useEffect(() => {
+    setInitialTienCoc(tiencoc)
+  }, [])
 
   const idbooking = datadatlich.map(item => item._id)
 
@@ -66,9 +76,7 @@ function ModalThanhToan ({
 
         if (response.ok) {
           fetchdatlich()
-          onClose()
-          closeFullModal()
-          alert('đặt cọc thành công')
+          setIsOpenSuccess(true)
         } else {
           alert('lỗi đặt cọc')
         }
@@ -76,6 +84,10 @@ function ModalThanhToan ({
         console.error('Lỗi khi đặt cọc:', error)
       }
     }
+  }
+  const handleClose = () => {
+    onClose()
+    closeFullModal()
   }
   if (!isOpen) return null
 
@@ -91,10 +103,12 @@ function ModalThanhToan ({
               <hr style={{ width: '100%', border: '1px solid gray' }} />
 
               <p className='pthongtintt'>Số tiền thanh toán</p>
-              <h3 className='h3thongtintt'>{tiencoc.toLocaleString()} VND</h3>
+              <h3 className='h3thongtintt'>
+                {initialTienCoc.toLocaleString()} VND
+              </h3>
 
               <p className='pthongtintt'>Giá trị đơn hàng</p>
-              <h3>{tiencoc.toLocaleString()} VND</h3>
+              <h3>{initialTienCoc.toLocaleString()} VND</h3>
 
               <p className='pthongtintt'>Phí giao dịch</p>
               <h3>0 VND</h3>
@@ -169,6 +183,12 @@ function ModalThanhToan ({
           </div>
         </div>
       </div>
+      <ModalThanhToanSuccess
+        isOpen={isOpenSuccess}
+        onClose={() => setIsOpenSuccess(false)}
+        tiencoc={initialTienCoc}
+        closeFullModal={handleClose}
+      />
     </>
   )
 }
