@@ -8,7 +8,7 @@ import SanbongTable from '../../components/SanbongTable';
 import DoThueTable from '../../components/DoThueTable';
 import DoUongTable from '../../components/DoUongTable';
 import CaBongTable from '../../components/CaBongTable';
-
+import ThamSoTable from '../../components/ThamSoTable';
 
 import './HomeAdmin.scss';
 function HomeAdmin() {
@@ -28,7 +28,7 @@ function HomeAdmin() {
       case 'shiftManagement':
         return <div>Shift Management Content</div>;
       case 'parameterManagement':
-        return <div>Parameter Management Content</div>;
+        return <ThamSoTable/>;
       case 'equipmentManagement':
         return <DoThueTable />;
       case 'beverageManagement':
@@ -44,7 +44,7 @@ function HomeAdmin() {
       <Sidebar onItemSelect={handleItemSelect} />
       <div className="a-content">
         <Header />
-        <UserForm />
+        {/* <UserForm /> */}
         {renderContent()}
       </div>
     </div>
