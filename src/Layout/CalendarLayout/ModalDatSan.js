@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import './ModalDatSan.scss'
 import ModalNganHang from './ModalNganHang'
 
-function ModalDatSan ({ isOpen, onClose, userId, datadatlich, fetchdatlich }) {
+function ModalDatSan({ isOpen, onClose, userId, datadatlich = [], fetchdatlich }) {
   const [isModalNganHangOpen, setisModalNganHangOpen] = useState(false)
   const [tennguoidat, settennguoidat] = useState('')
   const [phone, setphone] = useState('')
@@ -51,10 +51,10 @@ function ModalDatSan ({ isOpen, onClose, userId, datadatlich, fetchdatlich }) {
     }
   }
 
-  const tongTienCoc = datadatlich.reduce(
+  const tongTienCoc = (datadatlich || []).reduce(
     (total, item) => total + (item.tiencoc || 0),
     0
-  )
+  );
   const handleClose = () => {
     settennguoidat('')
     setphone('')
@@ -114,20 +114,19 @@ function ModalDatSan ({ isOpen, onClose, userId, datadatlich, fetchdatlich }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {datadatlich.map(item => (
+                  {Array.isArray(datadatlich) && datadatlich.map(item => (
                     <tr key={item._id}>
                       <td>{`${item.ca} (${item.begintime} - ${item.endtime})`}</td>
                       <td>{item.ngayda}</td>
                       <td>{item.soluongsan}</td>
                       <td>{item.giaca.toLocaleString()} đ</td>
                       <td>
-                        <button onClick={() => handelxoabooking(item._id)}>
-                          Xóa
-                        </button>
+                        <button onClick={() => handelxoabooking(item._id)}>Xóa</button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
+
               </table>
               <hr style={{ borderColor: 'black', width: '100%' }} />
               <div className='divtongtien'>

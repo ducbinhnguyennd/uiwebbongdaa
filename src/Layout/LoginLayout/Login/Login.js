@@ -54,7 +54,7 @@ function Login () {
           } else if (role === 'user') {
             navigate('/calendar',{ state: { userId: data._id } }) 
           } else {
-            navigate('/home') 
+            navigate('/nhanvien') 
           }
         } else {
           window.confirm(data.message || 'Đăng nhập không thành công')
