@@ -66,6 +66,7 @@ const CheckInScreen = () => {
             <th>STT</th>
             <th>Họ và Tên</th>
             <th>Số Điện Thoại</th>
+            <th>Loại Sân Bóng</th>
             <th>Tên Sân Bóng</th>
             <th>Tên Ca</th>
             <th>Tiền Sân</th>
@@ -82,6 +83,7 @@ const CheckInScreen = () => {
                 <td>{item.hovaten}</td>
                 <td>{item.phone}</td>
                 <td>{item.loaisanbong}</td>
+                <td>{item.sanbong}</td>
                 <td>{item.ca}</td>
                 <td>
                   {item.giaca
@@ -99,7 +101,7 @@ const CheckInScreen = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="9">Không có dữ liệu check-in</td>
+              <td colSpan="10">Không có dữ liệu check-in</td>
             </tr>
           )}
         </tbody>
