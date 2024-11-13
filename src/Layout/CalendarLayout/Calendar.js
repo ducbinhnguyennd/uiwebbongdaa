@@ -196,6 +196,49 @@ function Calendar () {
     }
   }
 
+  const getBookingStatus = bookingDetail => {
+    if (bookingDetail.coc === false) {
+      return 'chưa đặt cọc'
+    } else if (bookingDetail.coc && bookingDetail.checkin === false) {
+      return 'Đã đặt cọc'
+    } else if (bookingDetail.checkin && bookingDetail.thanhtoan) {
+      return 'Đang Đá'
+    } else {
+      return 'Đã thanh toán'
+    }
+  }
+
+  const getBookingbutton = bookingDetail => {
+    if (bookingDetail.coc === false) {
+      return (
+        <>
+          <button
+            onClick={() => handelxoabooking(bookingDetail._id, selectedDate)}
+          >
+            xóa
+          </button>
+        </>
+      )
+    } else if (bookingDetail.coc && bookingDetail.checkin === false) {
+      return (
+        <>
+          <button>hủy sân</button>
+          <button>đổi lịch</button>
+        </>
+      )
+    } else if (bookingDetail.checkin && bookingDetail.thanhtoan) {
+      return
+    } else {
+      return
+    }
+  }
+
+  const shouldShowChucNangColumn = bookingDetails.some(
+    bookingDetail =>
+      bookingDetail.coc === false ||
+      (bookingDetail.coc && bookingDetail.checkin === false)
+  )
+
   return (
     <div className='divcalendartong'>
       <div className='calendar'>
@@ -244,7 +287,7 @@ function Calendar () {
               <th>Giá</th>
               <th>Tiền cọc</th>
               <th>Trạng thái</th>
-              <th>Chức năng</th>
+              {shouldShowChucNangColumn && <th>Chức năng</th>}
             </tr>
           </thead>
           <tbody>
@@ -255,23 +298,8 @@ function Calendar () {
                 <td>{bookingDetail.soluongsan}</td>
                 <td>{bookingDetail.giaca.toLocaleString()} đ</td>
                 <td>{bookingDetail.tiencoc.toLocaleString()} đ</td>
-                <td>{bookingDetail.coc ? 'Đã đặt cọc' : 'chưa đặt cọc'}</td>
-                <td>
-                  {bookingDetail.coc ? (
-                    <>
-                      <button>hủy sân</button>
-                      <button>đổi lịch</button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        handelxoabooking(bookingDetail._id, selectedDate)
-                      }
-                    >
-                      xóa
-                    </button>
-                  )}
-                </td>
+                <td>{getBookingStatus(bookingDetail)}</td>
+                 {shouldShowChucNangColumn &&<td>{getBookingbutton(bookingDetail)}</td>}
               </tr>
             ))}
           </tbody>

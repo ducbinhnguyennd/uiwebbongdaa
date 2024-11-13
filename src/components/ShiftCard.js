@@ -1,22 +1,30 @@
-import React from 'react';
-import './ShiftCard.scss';
+import React from 'react'
+import './ShiftCard.scss'
 
 const ShiftCard = ({ shift }) => {
-  return (
-    <div className="shift-card">
-      <div className="shift-header">
-        <input type="checkbox" />
-        <h3>Ca {shift.ca}</h3>
-        <p>Loại sân: {shift.type}</p>
-      </div>
-      <div className="shift-details">
-        <p>📅 {shift.date}</p>
-        <p>🕒 {shift.time}</p>
-        <p>💵 {shift.price}</p>
-        <button className="status-btn">Đang trống</button>
-      </div>
-    </div>
-  );
-};
+  const currentDate = new Date().toLocaleDateString('vi-VN')
 
-export default ShiftCard;
+  return (
+    <div className='divshiftitem'>
+      {shift.ca.map((ca, index) => (
+        <div className='shift-card'>
+          <div className='shift-header'>
+            <input type='checkbox' />
+            <div className='divheadershiftcon'>
+            <h3>{ca.tenca} </h3>
+            <p>Loại sân: {ca.loaisan}</p>
+            </div>
+          </div>
+          <div className='shift-details'>
+            <p>📅 {currentDate}</p>
+            <p>🕒 {`${ca.begintime} - ${ca.endtime}`}</p>
+            <p>💵 {ca.giaca}</p>
+            <button className='status-btn'>Đang trống</button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default ShiftCard

@@ -58,7 +58,6 @@ const CheckInScreen = () => {
         </button>
       </div>
 
-      {/* Bảng sân chờ check-in */}
       <h3>Danh Sách Sân Chờ Check-In</h3>
       <table className="checkin-table">
         <thead>
@@ -117,6 +116,7 @@ const CheckInScreen = () => {
                 <th>STT</th>
                 <th>Họ và Tên</th>
                 <th>Số Điện Thoại</th>
+                <th>Loại Sân Bóng</th>
                 <th>Tên Sân Bóng</th>
                 <th>Tên Ca</th>
                 <th>Tiền Cọc</th>
@@ -130,6 +130,7 @@ const CheckInScreen = () => {
                   <td>{item.hovaten}</td>
                   <td>{item.phone}</td>
                   <td>{item.loaisanbong}</td>
+                  <td>{item.sanbong}</td>
                   <td>{item.ca}</td>
                   <td>
                     {item.giaca
