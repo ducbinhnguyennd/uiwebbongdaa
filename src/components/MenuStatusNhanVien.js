@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import './MenuStatusNhanVien.scss'
 
 const MenuStatusNhanVien = () => {
-  const [data, setdata] = useState(null)
+  const [data, setdata] = useState({})
   const fetchSoluongca = async () => {
     try {
       const response = await fetch(`http://localhost:8080/soluongsan`)
       if (response.ok) {
         const data = await response.json()
         setdata(data)
+        console.log(data)
       }
     } catch (error) {}
   }
