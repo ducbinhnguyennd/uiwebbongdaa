@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import HeaderNhanVien from '../../components/HeaderNhanVien';
 import DatLich from './DatLich/DatLich';
+import GiaoCa from './GiaoCa/GiaoCa';
+
 import ThanhToanNhanh from './ThanhToanNhanh/ThanhToanNhanh';
 import CheckInScreen from './CheckIn/CheckInScreen';
 import './HomeNhanVien.scss';
@@ -14,6 +16,8 @@ const HomeNhanVien = () => {
                 return <DatLich />;
             case 'thanh-toan-nhanh':
                 return <ThanhToanNhanh />;
+            case 'giao-ca':
+                return <GiaoCa />;
             case 'check-in':
                 return <CheckInScreen />;
 
