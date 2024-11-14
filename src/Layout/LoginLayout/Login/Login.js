@@ -47,14 +47,18 @@ function Login () {
           })
         })
         const data = await response.json()
-  
-        if (data) { 
-          if (role === 'admin') {
-            navigate('/admin')
-          } else if (role === 'user') {
-            navigate('/calendar',{ state: { userId: data._id } }) 
+
+        if (data) {
+          if (data.message) {
+            window.confirm(data.message)
           } else {
-            navigate('/nhanvien') 
+            if (role === 'admin') {
+              navigate('/admin')
+            } else if (role === 'user') {
+              navigate('/calendar', { state: { userId: data._id } })
+            } else {
+              navigate('/nhanvien')
+            }
           }
         } else {
           window.confirm(data.message || 'Đăng nhập không thành công')
@@ -65,7 +69,7 @@ function Login () {
       }
     }
   }
-  
+
   return (
     <div className='register-container'>
       <h2 className='register-title'>Đăng nhập</h2>
