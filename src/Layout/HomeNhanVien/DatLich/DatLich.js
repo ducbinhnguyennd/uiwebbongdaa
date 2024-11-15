@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import FilterBar from '../../../components/FilterBar'
 import ShiftCard from '../../../components/ShiftCard'
 import MenuStatusNhanVien from '../../../components/MenuStatusNhanVien'
+import { MenuStatusNhanVienContext } from '../../../components/MenuStatusNhanVienContext'
 
 import './DatLich.scss'
 
 const DatLich = () => {
+  const { menuStatusData } = useContext(MenuStatusNhanVienContext)
   const [shifts, setShifts] = useState([])
+  console.error(menuStatusData)
 
   const fetchsanbong = async () => {
     try {
@@ -22,9 +25,19 @@ const DatLich = () => {
     }
   }
 
+  
+
   useEffect(() => {
     fetchsanbong()
   }, [])
+
+  useEffect(() => {
+  if (Array.isArray(menuStatusData) && menuStatusData.length > 0) {
+    setShifts(menuStatusData)
+  }
+}, [menuStatusData])
+
+
   return (
     <div className='booking-screen'>
       <MenuStatusNhanVien />
@@ -33,12 +46,11 @@ const DatLich = () => {
       <div className='shift-list'>
         {shifts.map((shift, index) => (
           <div className='divshifttong'>
-          <div>
-            <h2>{shift.tensan}</h2>
+            <div>
+              <h2>{shift.tensan}</h2>
+            </div>
+            <ShiftCard key={index} shift={shift} />
           </div>
-          <ShiftCard key={index} shift={shift} />
-          </div>
-          
         ))}
       </div>
     </div>
