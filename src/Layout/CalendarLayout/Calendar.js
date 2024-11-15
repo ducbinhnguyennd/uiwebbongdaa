@@ -243,6 +243,17 @@ function Calendar () {
     <div className='divcalendartong'>
       <div className='calendar'>
         <button onClick={() => setIsModalDatSanOpen(true)}>Đặt sân</button>
+        <button
+          className='nut'
+          onClick={() => {
+
+            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('authToken');
+            window.location.href = 'http://localhost:3000';
+          }}
+        >
+          Đăng xuất
+        </button>
         <div className='header'>
           <button onClick={prevMonth}>Previous</button>
           <h2>

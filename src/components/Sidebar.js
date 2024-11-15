@@ -11,7 +11,7 @@ function Sidebar({ onItemSelect }) {
     { id: 5, label: 'Quản Lý Tham Số', dataKey: 'parameterManagement' },
     { id: 6, label: 'Quản Lý Đồ Thuê', dataKey: 'equipmentManagement' },
     { id: 7, label: 'Quản Lý Nước Uống', dataKey: 'beverageManagement' },
-    { id: 8, label: 'Quản Lý Ca', dataKey: 'quanlyca' },
+    { id: 8, label: 'Quản Lý Ca', dataKey: 'quanlyca' }
   ];
 
   const handleClick = (item) => {
