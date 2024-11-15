@@ -1,4 +1,9 @@
+import { useNavigate, useLocation } from 'react-router-dom'
+
 function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const handleNhanCa = async () => {
     try {
       if (khoitaoca) {
@@ -14,6 +19,9 @@ function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
         if (response.ok) {
           alert('nhận ca thành công')
           setkhotaocaus(false)
+          navigate(location.pathname, {
+            state: { ...location.state, khoitaoca: false }
+          })
         }
       }
       if (nhanca === false) {
@@ -26,6 +34,9 @@ function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
         if (response.ok) {
           alert('nhận ca thành công')
           setnhancaus(true)
+          navigate(location.pathname, {
+            state: { ...location.state, nhanca: true }
+          })
         }
       }
     } catch (error) {
