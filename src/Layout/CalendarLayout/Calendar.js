@@ -254,7 +254,7 @@ function Calendar () {
         >
           Đăng xuất
         </button>
-        <div className='header'>
+        <div className='headercalendar'>
           <button onClick={prevMonth}>Previous</button>
           <h2>
             {currentDate.toLocaleString('default', { month: 'long' })}{' '}

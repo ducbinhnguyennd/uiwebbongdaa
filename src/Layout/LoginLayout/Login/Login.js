@@ -57,9 +57,14 @@ function Login () {
             } else if (role === 'user') {
               navigate('/calendar', { state: { userId: data.user._id } })
             } else {
-              if (data.nhanca) {
+              if (data.nhanca !== undefined) {
+                console.log(data.nhanca)
                 navigate('/nhanvien', {
-                  state: { nhanca: data.nhanca, userId: data.user._id }
+                  state: {
+                    nhanca: data.nhanca,
+                    userId: data.user._id,
+                    khoitaoca: false
+                  }
                 })
               } else {
                 navigate('/nhanvien', {

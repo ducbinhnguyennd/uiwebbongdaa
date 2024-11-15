@@ -1,28 +1,45 @@
-import React, { useState } from 'react';
-import './FilterBar.scss';
-import ModalDatSan from '../Layout/CalendarLayout/ModalDatSan';
+import React, { useState, useEffect } from 'react'
+import './FilterBar.scss'
+import ModalDatSan from '../Layout/CalendarLayout/ModalDatSan'
 
-const FilterBar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const FilterBar = ({datadatlich, setdatadatlich,fetchdatlich,userId
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
+
+
+  useEffect(() => {
+    fetchdatlich()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <div className="filter-bar">
-      <button className="filter-btn">Filter</button>
-      <button className="select-btn">Chọn Sân</button>
-      <button className="info-btn" onClick={handleOpenModal}>Điền Thông Tin</button>
+    <div className='filter-bar'>
+      <button className='filter-btn'>Filter</button>
+      <button className='select-btn'>Chọn Sân</button>
+      <button className='info-btn' onClick={handleOpenModal}>
+        Điền Thông Tin
+      </button>
 
-      {/* Hiển thị modal nếu `isModalOpen` là true */}
-      {isModalOpen && <ModalDatSan isOpen={isModalOpen} onClose={handleCloseModal} />}
+      {isModalOpen && (
+        <ModalDatSan
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          userId={userId}
+          datadatlich={datadatlich}
+          fetchdatlich={fetchdatlich}
+        />
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default FilterBar;
+export default FilterBar

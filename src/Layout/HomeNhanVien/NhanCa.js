@@ -6,7 +6,12 @@ function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
 
   const handleNhanCa = async () => {
     try {
+      let updatedState = { ...location.state }
+
       if (khoitaoca) {
+        console.log(khoitaoca)
+        console.log(nhanca)
+
         const response = await fetch(
           `http://localhost:8080/khoitaogiaoca/${userId}`,
           {
@@ -19,12 +24,9 @@ function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
         if (response.ok) {
           alert('nhận ca thành công')
           setkhotaocaus(false)
-          navigate(location.pathname, {
-            state: { ...location.state, khoitaoca: false }
-          })
+          updatedState.khoitaoca = false
         }
-      }
-      if (nhanca === false) {
+      } else if (nhanca === false) {
         const response = await fetch(`http://localhost:8080/nhanca/${userId}`, {
           method: 'POST',
           headers: {
@@ -32,13 +34,12 @@ function NhanCa ({ userId, khoitaoca, setkhotaocaus, setnhancaus, nhanca }) {
           }
         })
         if (response.ok) {
-          alert('nhận ca thành công')
+          alert('nhận ca tiếp thành công')
           setnhancaus(true)
-          navigate(location.pathname, {
-            state: { ...location.state, nhanca: true }
-          })
+          updatedState.nhanca = true
         }
       }
+      navigate(location.pathname, { state: updatedState })
     } catch (error) {
       alert('đã xảy ra lỗi')
       console.log(error)

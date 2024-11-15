@@ -12,11 +12,12 @@ import NhanCa from './NhanCa'
 const HomeNhanVien = () => {
   const [currentPage, setCurrentPage] = useState('dat-lich')
   const location = useLocation()
-  const nhanca = location.state?.nhanca || ''
+  const nhanca = location.state.nhanca
   const khoitaoca = location.state?.khoitaoca || ''
   const userId = location.state?.userId || ''
   const [nhancaust, setnhanca] = useState(nhanca)
   const [khoitaocaust, setkhoitaoca] = useState(khoitaoca)
+  console.log(nhanca)
 
   const renderPageContent = () => {
     switch (currentPage) {
@@ -39,7 +40,7 @@ const HomeNhanVien = () => {
       {(nhancaust === false || khoitaocaust === true) && (
         <NhanCa
           userId={userId}
-          khoitaoca={khoitaoca}
+          khoitaoca={khoitaocaust}
           setkhotaocaus={setkhoitaoca}
           setnhancaus={setnhanca}
           nhanca={nhancaust}
