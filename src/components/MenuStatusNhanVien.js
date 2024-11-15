@@ -59,6 +59,21 @@ const MenuStatusNhanVien = () => {
     }
   }
 
+  const fetchchonhansan = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/chonhansan`)
+    if (response.ok) {
+      const data = await response.json()
+      setMenuStatusData(data)
+    } else {
+      console.log('đã xảy ra lỗi')
+    }
+  } catch (error) {
+    console.error('Error fetching shifts:', error)
+  }
+}
+
+
   return (
     <div className='menu-status'>
       <div className='status-item' onClick={fetchsanbong}>
@@ -72,7 +87,7 @@ const MenuStatusNhanVien = () => {
         <p>Đang trống</p>
       </div>
       <div className='status-item'>
-        <span className='status-icon waiting-icon'>
+        <span className='status-icon waiting-icon' onClick={fetchchonhansan}>
           {data.soluongCaChoNhanSan}
         </span>
         <p>Chờ nhận sân</p>
