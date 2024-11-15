@@ -1,124 +1,145 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import './GiaoCa.scss';
 
-const InvoiceDetails = () => {
-  const [invoiceData, setInvoiceData] = useState([]);
+const GiaoCaScreen = () => {
+  const location = useLocation();
+  const userId = location.state?.userId || '';
 
+  const [employees, setEmployees] = useState([]);
+  const [shiftData, setShiftData] = useState({
+    tienbandau: '',
+    idusergiaoca: userId,
+    tienphatsinh: '',
+  });
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const [handoverData, setHandoverData] = useState({
+    timenhanca: '',
+    nvhientai: '',
+    phone: '',
+    hoadonthanhtoan: 0,
+    hoadonchuathanhtoan: 0,
+    tongtientttienmat: 0,
+    tongtienttchuyenkhoan: 0,
+  });
+
+  // Fetch all employees
   useEffect(() => {
-    // Fetch all invoice data from the API
-    axios.get('http://localhost:8080/gethoadon')
+    axios.get('http://localhost:8080/getnhanvien')
       .then(response => {
-        setInvoiceData(response.data);
+        setEmployees(response.data);
       })
       .catch(error => {
-        console.error('Error fetching invoice data:', error);
+        console.error('Error fetching employees:', error);
       });
   }, []);
 
-  // Function to delete rental items
-  const deleteRentalItem = (rentalId, invoiceId) => {
-    const apiUrl = `http://localhost:8080/xoadothuehoadon/${rentalId}/${invoiceId}`;
-
-    axios.post(apiUrl)
-      .then(() => {
-        // After deletion, update the local state or re-fetch the data
-        alert('Rental item deleted successfully!');
-        setInvoiceData(prevData =>
-          prevData.map(invoice =>
-            invoice.idhoadon === invoiceId
-              ? {
-                  ...invoice,
-                  dothue: invoice.dothue.filter(item => item._id !== rentalId)
-                }
-              : invoice
-          )
-        );
+  // Fetch shift handover data
+  useEffect(() => {
+    axios.get(`http://localhost:8080/getgiaoca/${userId}`)
+      .then(response => {
+        setHandoverData(response.data);
       })
       .catch(error => {
-        console.error('Error deleting rental item:', error);
+        console.error('Error fetching handover data:', error);
       });
+  }, [userId]);
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShiftData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  // Function to delete drink items
-  const deleteDrinkItem = (drinkId, invoiceId) => {
-    const apiUrl = `http://localhost:8080/xoadouonghoadon/${drinkId}/${invoiceId}`;
+  // Handle form submission
+  const handleSubmit = () => {
+    const dataToPost = {
+      ...shiftData,
+      idusergiaoca: selectedEmployeeId || shiftData.idusergiaoca,
+    };
+    axios.post(`http://localhost:8080/giaoca/${userId}`, dataToPost)
+      .then(response => {
+        alert('Giao ca thành công');
 
-    axios.post(apiUrl)
-      .then(() => {
-        // After deletion, update the local state or re-fetch the data
-        alert('Drink item deleted successfully!');
-        setInvoiceData(prevData =>
-          prevData.map(invoice =>
-            invoice.idhoadon === invoiceId
-              ? {
-                  ...invoice,
-                  douong: invoice.douong.filter(item => item._id !== drinkId)
-                }
-              : invoice
-          )
-        );
       })
       .catch(error => {
-        console.error('Error deleting drink item:', error);
+        alert('Giao ca thất bại, vui lòng thử lại.');
+        console.error('Error submitting shift data:', error);
       });
   };
 
   return (
-    <div>
-      {invoiceData.length > 0 ? (
-        invoiceData.map(invoice => (
-          <div key={invoice.idhoadon}>
-            <h2>Invoice: {invoice.mahd}</h2>
-            <h3>Booking Details</h3>
-            <p>Name: {invoice.booking.hovaten}</p>
-            <p>Phone: {invoice.booking.phone}</p>
-            <p>Field: {invoice.booking.loaisanbong}</p>
-            <p>Time: {invoice.booking.begintime} - {invoice.booking.endtime}</p>
-            <p>Date: {invoice.booking.ngayda}</p>
+    <div className="shift-handover-screen">
+      <h2>Giao Dịch Trong Ca</h2>
+      <div className="transaction-details">
+        <div>
+          <label>Thời gian nhận ca:</label>
+          <input type="text" value={new Date(handoverData.timenhanca).toLocaleString()} disabled />
+        </div>
+        <div>
+          <label>Thời gian hiện tại:</label>
+          <input type="text" value={new Date().toLocaleString()} disabled />
+        </div>
+        <div>
+          <label>Nhân viên ca hiện tại:</label>
+          <input type="text" value={handoverData.nvhientai} disabled />
+        </div>
+        <div>
+          <label>Điện thoại:</label>
+          <input type="text" value={handoverData.phone} disabled />
+        </div>
+        <div>
+          <label>Tiền ban đầu (1):</label>
+          <input type="number" name="tienbandau" value={handoverData.tienbandau} disabled/>
+        </div>
+        <div>
+          <label>Tổng số hóa đơn đã thanh toán:</label>
+          <input type="text" value={handoverData.hoadonthanhtoan} disabled />
+        </div>
+        <div>
+          <label>Tổng số hóa đơn chưa thanh toán:</label>
+          <input type="text" value={handoverData.hoadonchuathanhtoan} disabled />
+        </div>
+        <div>
+          <label>Tiền phát sinh (2):</label>
+          <input type="number" name="tienphatsinh" value={shiftData.tienphatsinh} onChange={handleInputChange} />
+        </div>
+        <div>
+          <label>Ghi chú:</label>
+          <textarea name="ghichu" />
+        </div>
+      </div>
 
-            <h3>Rented Items (Dịch vụ thuê)</h3>
-            <ul>
-              {invoice.dothue.length > 0 ? (
-                invoice.dothue.map(item => (
-                  <li key={item._id}>
-                    <img src={item.image} alt={item.tendothue} width={50} />
-                    <span>{item.tendothue} - {item.soluong} items - {item.thanhtien} VND</span>
-                    <button onClick={() => deleteRentalItem(item._id, invoice.idhoadon)}>
-                      Delete Rental Item
-                    </button>
-                  </li>
-                ))
-              ) : (
-                <p>No rented items</p>
-              )}
-            </ul>
+      <h2>Bàn Giao Ca</h2>
+      <div className="handover-section">
+        <label>Nhân viên nhận ca:</label>
+        <select value={selectedEmployeeId} onChange={(e) => setSelectedEmployeeId(e.target.value)}>
+          <option value="">Chọn nhân viên</option>
+          {employees.map((employee) => (
+            <option key={employee._id} value={employee._id}>
+              {employee.hovaten} - {employee.phone}
+            </option>
+          ))}
+        </select>
 
-            <h3>Drinks (Đồ uống)</h3>
-            <ul>
-              {invoice.douong.length > 0 ? (
-                invoice.douong.map(item => (
-                  <li key={item._id}>
-                    <img src={item.image} alt={item.tendouong} width={50} />
-                    <span>{item.tendouong} - {item.soluong} items - {item.thanhtien} VND</span>
-                    <button onClick={() => deleteDrinkItem(item._id, invoice.idhoadon)}>
-                      Delete Drink Item
-                    </button>
-                  </li>
-                ))
-              ) : (
-                <p>No drink items</p>
-              )}
-            </ul>
-            
-            <h3>Total Amount: {invoice.tongtien} VND</h3>
-            <hr />
-          </div>
-        ))
-      ) : (
-        <p>Loading invoice data...</p>
-      )}
+        <div>
+          <label>Tổng tiền trong ca (1) + (3) + (4) - (2):</label>
+          <input type="text" value={
+            parseFloat(shiftData.tienbandau || 0) + 
+            parseFloat(handoverData.tongtientttienmat) + 
+            parseFloat(handoverData.tongtienttchuyenkhoan) - 
+            parseFloat(shiftData.tienphatsinh || 0)
+          } disabled />
+        </div>
+
+        <button onClick={handleSubmit}>Giao Ca</button>
+      </div>
     </div>
   );
 };
 
-export default InvoiceDetails;
+export default GiaoCaScreen;
