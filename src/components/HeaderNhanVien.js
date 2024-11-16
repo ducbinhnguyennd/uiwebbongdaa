@@ -16,7 +16,7 @@ const HeaderNhanVien = ({ setCurrentPage }) => {
 
   return (
     <header className="header">
-      <div className="logo">KFC STADIUM</div>
+      <div className="logo">HELLO STADIUM</div>
       <nav className="nav">
         <button className='nut' onClick={() => setCurrentPage('dat-lich')}>Đặt Lịch</button>
         <button className='nut' onClick={() => setCurrentPage('thanh-toan-nhanh')}>Thanh Toán Nhanh</button>

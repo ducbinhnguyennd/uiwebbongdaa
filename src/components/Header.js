@@ -15,7 +15,7 @@ function Header() {
 
   return (
     <div className="header">
-      <h2>DONGDE STADIUM</h2>
+      <h2>HELLO STADIUM</h2>
       <div>
         <span>Quản Lý</span>
         <span>Thống Kê</span>
