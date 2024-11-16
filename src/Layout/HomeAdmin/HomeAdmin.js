@@ -4,6 +4,7 @@ import Sidebar from '../../components/Sidebar';
 import Header from '../../components/Header';
 import UserForm from '../../components/UserForm';
 import UserTable from '../../components/UserTable';
+import LuatSan from '../../components/LuatSan';
 import GiaoCaTable from '../../components/GiaoCaTable';
 import SanbongTable from '../../components/SanbongTable';
 import DoThueTable from '../../components/DoThueTable';
@@ -25,7 +26,7 @@ function HomeAdmin() {
       case 'fieldManagement':
         return <SanbongTable />;
       case 'rulesManagement':
-        return <div>Rules Management Content</div>;
+        return <LuatSan/>;
       case 'shiftManagement':
         return <GiaoCaTable/>;
       case 'parameterManagement':
