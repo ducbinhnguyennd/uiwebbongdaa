@@ -79,6 +79,11 @@ function ModalDatLich ({
     onClose()
   }
   const handledatlichsan = async () => {
+    if (!soluongSans[selectedShiftId] || soluongSans[selectedShiftId] <= 0) {
+      alert('Vui lòng nhập số lượng sân.')
+      return
+    }
+
     try {
       const response = await fetch(
         `http://localhost:8080/datlichsan/${userId}`,
