@@ -9,9 +9,9 @@ const GiaoCaScreen = () => {
 
   const [employees, setEmployees] = useState([]);
   const [shiftData, setShiftData] = useState({
-    tienbandau: '',
+    tienbandau: 0,
     idusergiaoca: userId,
-    tienphatsinh: '',
+    tienphatsinh: 0,
   });
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
   const [handoverData, setHandoverData] = useState({
@@ -94,7 +94,7 @@ const GiaoCaScreen = () => {
         </div>
         <div>
           <label>Tiền ban đầu (1):</label>
-          <input type="number" name="tienbandau" value={handoverData.tienbandau} disabled/>
+          <input type="number" name="tienbandau" value={handoverData.tienbandau} onChange={handleInputChange} disabled/>
         </div>
         <div>
           <label>Tổng số hóa đơn đã thanh toán:</label>
@@ -106,7 +106,7 @@ const GiaoCaScreen = () => {
         </div>
         <div>
           <label>Tiền phát sinh (2):</label>
-          <input type="number" name="tienphatsinh" value={shiftData.tienphatsinh} onChange={handleInputChange} />
+          <input type="number" name="tienphatsinh" value={handoverData.tienphatsinh} onChange={handleInputChange} />
         </div>
         <div>
           <label>Ghi chú:</label>
@@ -129,7 +129,7 @@ const GiaoCaScreen = () => {
         <div>
           <label>Tổng tiền trong ca (1) + (3) + (4) - (2):</label>
           <input type="text" value={
-            parseFloat(shiftData.tienbandau || 0) + 
+            parseFloat(handoverData.tienbandau || 0) + 
             parseFloat(handoverData.tongtientttienmat) + 
             parseFloat(handoverData.tongtienttchuyenkhoan) - 
             parseFloat(shiftData.tienphatsinh || 0)

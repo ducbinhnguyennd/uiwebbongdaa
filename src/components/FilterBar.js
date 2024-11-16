@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './FilterBar.scss'
-import ModalDatSan from '../Layout/CalendarLayout/ModalDatSan'
-
-const FilterBar = ({datadatlich, setdatadatlich,fetchdatlich,userId
-}) => {
+import { ModalDatHo } from '../Layout/ModalDatHo'
+const FilterBar = ({ datadatlich, setdatadatlich, fetchdatlich, userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  
 
   const handleOpenModal = () => {
     setIsModalOpen(true)
@@ -14,7 +11,6 @@ const FilterBar = ({datadatlich, setdatadatlich,fetchdatlich,userId
   const handleCloseModal = () => {
     setIsModalOpen(false)
   }
-
 
   useEffect(() => {
     fetchdatlich()
@@ -30,7 +26,7 @@ const FilterBar = ({datadatlich, setdatadatlich,fetchdatlich,userId
       </button>
 
       {isModalOpen && (
-        <ModalDatSan
+        <ModalDatHo
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           userId={userId}
