@@ -23,7 +23,7 @@ function Calendar () {
   const userId = location.state?.userId || ''
 
   const today = new Date()
-today.setHours(0, 0, 0, 0)
+  today.setHours(0, 0, 0, 0)
 
   const fetchBookingDays = async () => {
     try {
@@ -141,6 +141,11 @@ today.setHours(0, 0, 0, 0)
     )
     clickedDate.setHours(0, 0, 0, 0)
     console.log(clickedDate)
+
+    if (clickedDate < today) {
+      alert('Bạn không thể chọn ngày trong quá khứ')
+      return
+    }
 
     const isBooked = bookingDays.some(
       bookingDay =>
