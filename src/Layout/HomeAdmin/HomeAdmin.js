@@ -1,55 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import Sidebar from '../../components/Sidebar';
-import Header from '../../components/Header';
-import UserForm from '../../components/UserForm';
-import UserTable from '../../components/UserTable';
-import GiaoCaTable from '../../components/GiaoCaTable';
-import SanbongTable from '../../components/SanbongTable';
-import DoThueTable from '../../components/DoThueTable';
-import DoUongTable from '../../components/DoUongTable';
-import CaBongTable from '../../components/CaBongTable';
-import ThamSoTable from '../../components/ThamSoTable';
+import Sidebar from '../../components/Sidebar'
+import Header from '../../components/Header'
+import UserTable from '../../components/UserTable'
+import GiaoCaTable from '../../components/GiaoCaTable'
+import SanbongTable from '../../components/SanbongTable'
+import DoThueTable from '../../components/DoThueTable'
+import DoUongTable from '../../components/DoUongTable'
+import CaBongTable from '../../components/CaBongTable'
+import ThamSoTable from '../../components/ThamSoTable'
+import LichSuGiaoDich from '../../components/LichSuGiaoDich'
 
-import './HomeAdmin.scss';
-function HomeAdmin() {
-  const [selectedDataKey, setSelectedDataKey] = useState('staffManagement');
+import './HomeAdmin.scss'
+function HomeAdmin () {
+  const [selectedDataKey, setSelectedDataKey] = useState('staffManagement')
 
-  const handleItemSelect = (dataKey) => {
-    setSelectedDataKey(dataKey);
-  };
+  const handleItemSelect = dataKey => {
+    setSelectedDataKey(dataKey)
+  }
   const renderContent = () => {
     switch (selectedDataKey) {
       case 'staffManagement':
-        return <UserTable />;
+        return <UserTable />
       case 'fieldManagement':
-        return <SanbongTable />;
+        return <SanbongTable />
       case 'rulesManagement':
-        return <div>Rules Management Content</div>;
+        return <div>Rules Management Content</div>
       case 'shiftManagement':
-        return <GiaoCaTable/>;
+        return <GiaoCaTable />
       case 'parameterManagement':
-        return <ThamSoTable/>;
+        return <ThamSoTable />
       case 'equipmentManagement':
-        return <DoThueTable />;
+        return <DoThueTable />
       case 'beverageManagement':
-        return <DoUongTable />;
+        return <DoUongTable />
       case 'quanlyca':
-        return <CaBongTable />;
+        return <CaBongTable />
+      case 'lichsu':
+        return <LichSuGiaoDich />
       default:
-        return <UserTable />;
+        return <UserTable />
     }
-  };
+  }
   return (
-    <div className="HomeAdmin-container">
+    <div className='HomeAdmin-container'>
       <Sidebar onItemSelect={handleItemSelect} />
-      <div className="a-content">
+      <div className='a-content'>
         <Header />
         {/* <UserForm /> */}
         {renderContent()}
       </div>
     </div>
-  );
+  )
 }
 
-export default HomeAdmin;
+export default HomeAdmin

@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import './ShiftCard.scss'
 import { useLocation } from 'react-router-dom'
 
-const ShiftCard = ({ shift,fetchdatlich
- }) => {
+const ShiftCard = ({ shift, fetchdatlich }) => {
   const currentDate = new Date().toLocaleDateString('vi-VN')
   const location = useLocation()
 
@@ -16,37 +15,40 @@ const ShiftCard = ({ shift,fetchdatlich
 
   const [checkedItems, setCheckedItems] = useState({})
 
-const handleCheckboxChange = (caId, trangthai, loaisan, ngayda) => {
-  
-  const status = trangthai
+  const handleCheckboxChange = (caId, trangthai, loaisan, ngayda) => {
+    const status = trangthai
 
-  if (status === 'Quá giờ') {
-    alert('Ca đã quá giờ. Không thể chọn!')
-    return
-  }
-  if(status === 'Chờ nhận sân'){
-    alert('Ca đã được đặt. Không thể chọn')
-    return
-  }
-
-  setCheckedItems(prev => {
-    const newCheckedState = {
-      ...prev,
-      [caId]: !prev[caId]
+    if (status === 'Quá giờ') {
+      alert('Ca đã quá giờ. Không thể chọn!')
+      return
+    }
+    if (status === 'Chờ nhận sân') {
+      alert('Ca đã được đặt. Không thể chọn')
+      return
     }
 
-    if (newCheckedState[caId]) {
-      handledatlichsan(loaisan, ngayda, caId)
-    }
+    setCheckedItems(prev => {
+      const newCheckedState = {
+        ...prev,
+        [caId]: !prev[caId]
+      }
 
-    return newCheckedState
-  })
-}
+      if (newCheckedState[caId]) {
+        handledatlichsan(loaisan, ngayda, caId)
+      }
 
+      return newCheckedState
+    })
+  }
+
+  const convertDate = dateString => {
+    const [day, month, year] = dateString.split('-') // Tách chuỗi thành ngày, tháng, năm
+    return new Date(`${year}-${month}-${day}`) // Tạo đối tượng Date
+  }
 
   const handledatlichsan = async (tenLoaiSan, date, selectedShiftId) => {
     try {
-      const formattedDate = date.split('/').reverse().join('-')
+      const formattedDate = convertDate(date)
 
       const response = await fetch(
         `http://localhost:8080/datlichsan/${userId}`,
@@ -82,7 +84,9 @@ const handleCheckboxChange = (caId, trangthai, loaisan, ngayda) => {
           <div className='shift-header'>
             <input
               type='checkbox'
-              onChange={() => handleCheckboxChange(ca._id, ca.trangthai,ca.loaisan, currentDate)}
+              onChange={() =>
+                handleCheckboxChange(ca._id, ca.trangthai, ca.loaisan, ca.date)
+              }
               checked={checkedItems[ca._id] || false}
             />
             <div className='divheadershiftcon'>
@@ -91,7 +95,7 @@ const handleCheckboxChange = (caId, trangthai, loaisan, ngayda) => {
             </div>
           </div>
           <div className='shift-details'>
-            <p>📅 {currentDate}</p>
+            <p>📅 {ca.date}</p>
             <p>🕒 {`${ca.begintime} - ${ca.endtime}`}</p>
             <p>💵 {ca.giaca.toLocaleString()} đ</p>
             <button className={getButtonClass(ca.trangthai)}>
