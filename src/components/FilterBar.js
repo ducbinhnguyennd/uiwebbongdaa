@@ -37,6 +37,7 @@ const FilterBar = ({ datadatlich, setdatadatlich, fetchdatlich, userId }) => {
       console.error('Lỗi khi tìm sân:', error)
     }
   }
+const today = new Date().toISOString().split('T')[0]
 
   return (
     <div className='filter-bar'>
@@ -50,6 +51,7 @@ const FilterBar = ({ datadatlich, setdatadatlich, fetchdatlich, userId }) => {
           type='date'
           value={ngayDa}
           onChange={e => setNgayDa(e.target.value)}
+          min={today}
         />
         <button onClick={fetchSanBongByNgayDa}>Tìm Sân</button>
       </div>
