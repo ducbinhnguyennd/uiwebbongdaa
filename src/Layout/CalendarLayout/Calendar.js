@@ -22,6 +22,9 @@ function Calendar () {
   const location = useLocation()
   const userId = location.state?.userId || ''
 
+  const today = new Date()
+today.setHours(0, 0, 0, 0)
+
   const fetchBookingDays = async () => {
     try {
       const response = await fetch(
