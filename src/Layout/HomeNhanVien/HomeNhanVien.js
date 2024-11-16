@@ -5,6 +5,7 @@ import GiaoCa from './GiaoCa/GiaoCa'
 
 import ThanhToanNhanh from './ThanhToanNhanh/ThanhToanNhanh'
 import CheckInScreen from './CheckIn/CheckInScreen'
+import LichSuGiaoDich from '../../components/LichSuGiaoDich'
 import './HomeNhanVien.scss'
 import { useLocation } from 'react-router-dom'
 import NhanCa from './NhanCa'
@@ -29,6 +30,8 @@ const HomeNhanVien = () => {
         return <GiaoCa />
       case 'check-in':
         return <CheckInScreen />
+      case 'lich-su':
+        return <LichSuGiaoDich />
 
       default:
         return <DatLich />
