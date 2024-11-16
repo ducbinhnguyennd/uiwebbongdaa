@@ -12,15 +12,18 @@ function Header() {
     // Chuyển hướng về trang đăng nhập
     navigate('/'); // Chuyển hướng đến trang login
   };
+  const handleNavigateThongKe = () => {
+  navigate('/thongke') // Chuyển hướng đến trang Thống Kê
+}
+
 
   return (
     <div className="header">
       <h2>HELLO STADIUM</h2>
-      <div>
+      <div >
         <span>Quản Lý</span>
-        <span>Thống Kê</span>
+        <span onClick={handleNavigateThongKe}>Thống Kê</span>
         <span>admin 1</span>
-        {/* Nút đăng xuất */}
         <button onClick={handleLogout} style={{ marginLeft: '20px' }}>Đăng xuất</button>
       </div>
     </div>

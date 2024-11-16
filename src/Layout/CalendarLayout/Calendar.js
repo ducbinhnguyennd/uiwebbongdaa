@@ -322,7 +322,6 @@ function Calendar () {
             fetchBookingDays()
             fetchBookingDetails(selectedDate)
           }}
-          userId={userId}
         />
       </div>
       <div className='divtablecalendartong'>
