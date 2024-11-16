@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 
-import Sidebar from '../../components/Sidebar'
-import Header from '../../components/Header'
-import UserTable from '../../components/UserTable'
-import GiaoCaTable from '../../components/GiaoCaTable'
-import SanbongTable from '../../components/SanbongTable'
-import DoThueTable from '../../components/DoThueTable'
-import DoUongTable from '../../components/DoUongTable'
-import CaBongTable from '../../components/CaBongTable'
-import ThamSoTable from '../../components/ThamSoTable'
-import LichSuGiaoDich from '../../components/LichSuGiaoDich'
+import Sidebar from '../../components/Sidebar';
+import Header from '../../components/Header';
+import UserTable from '../../components/UserTable';
+import LuatSan from '../../components/LuatSan';
+import GiaoCaTable from '../../components/GiaoCaTable';
+import SanbongTable from '../../components/SanbongTable';
+import DoThueTable from '../../components/DoThueTable';
+import DoUongTable from '../../components/DoUongTable';
+import CaBongTable from '../../components/CaBongTable';
+import ThamSoTable from '../../components/ThamSoTable';
+import LichSuGiaoDich from '../../components/LichSuGiaoDich';
 
 import './HomeAdmin.scss'
 function HomeAdmin () {
@@ -25,7 +26,7 @@ function HomeAdmin () {
       case 'fieldManagement':
         return <SanbongTable />
       case 'rulesManagement':
-        return <div>Rules Management Content</div>
+        return <LuatSan/>;
       case 'shiftManagement':
         return <GiaoCaTable />
       case 'parameterManagement':
