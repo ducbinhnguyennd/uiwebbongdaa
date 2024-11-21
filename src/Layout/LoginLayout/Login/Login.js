@@ -85,7 +85,7 @@ function Login () {
 
   return (
     <div className='register-container'>
-      <h2 className='register-title'>Đăng nhập</h2>
+      <h2 className='register-title'>Đăng nhập </h2>
       <input
         type='email'
         placeholder='Email'
